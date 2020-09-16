@@ -83,54 +83,6 @@
     <cell>
       <shape>EQ_TRIANGLE</shape>
       <scale>50</scale>
-      <locationX>554</locationX>
-      <locationY>525</locationY>
-      <rotation>-90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>597</locationX>
-      <locationY>550</locationY>
-      <rotation>90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>640</locationX>
-      <locationY>525</locationY>
-      <rotation>-90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>683</locationX>
-      <locationY>550</locationY>
-      <rotation>90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>726</locationX>
-      <locationY>525</locationY>
-      <rotation>-90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>769</locationX>
-      <locationY>550</locationY>
-      <rotation>90</rotation>
-      <colour>RED</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
       <locationX>467</locationX>
       <locationY>625</locationY>
       <rotation>90</rotation>
@@ -151,54 +103,6 @@
       <locationY>625</locationY>
       <rotation>90</rotation>
       <colour>GREEN</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>597</locationX>
-      <locationY>600</locationY>
-      <rotation>-90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>640</locationX>
-      <locationY>625</locationY>
-      <rotation>90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>683</locationX>
-      <locationY>600</locationY>
-      <rotation>-90</rotation>
-      <colour>YELLOW</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>726</locationX>
-      <locationY>625</locationY>
-      <rotation>90</rotation>
-      <colour>RED</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>769</locationX>
-      <locationY>600</locationY>
-      <rotation>-90</rotation>
-      <colour>RED</colour>
-    </cell>
-    <cell>
-      <shape>EQ_TRIANGLE</shape>
-      <scale>50</scale>
-      <locationX>813</locationX>
-      <locationY>625</locationY>
-      <rotation>90</rotation>
-      <colour>RED</colour>
     </cell>
     <cell>
       <shape>EQ_TRIANGLE</shape>
@@ -243,10 +147,106 @@
     <cell>
       <shape>EQ_TRIANGLE</shape>
       <scale>50</scale>
+      <locationX>554</locationX>
+      <locationY>525</locationY>
+      <rotation>-90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>597</locationX>
+      <locationY>550</locationY>
+      <rotation>90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>640</locationX>
+      <locationY>525</locationY>
+      <rotation>-90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>683</locationX>
+      <locationY>550</locationY>
+      <rotation>90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>726</locationX>
+      <locationY>525</locationY>
+      <rotation>-90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>597</locationX>
+      <locationY>600</locationY>
+      <rotation>-90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>640</locationX>
+      <locationY>625</locationY>
+      <rotation>90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>683</locationX>
+      <locationY>600</locationY>
+      <rotation>-90</rotation>
+      <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
       <locationX>640</locationX>
       <locationY>675</locationY>
       <rotation>-90</rotation>
       <colour>YELLOW</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>769</locationX>
+      <locationY>550</locationY>
+      <rotation>90</rotation>
+      <colour>RED</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>726</locationX>
+      <locationY>625</locationY>
+      <rotation>90</rotation>
+      <colour>RED</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>769</locationX>
+      <locationY>600</locationY>
+      <rotation>-90</rotation>
+      <colour>RED</colour>
+    </cell>
+    <cell>
+      <shape>EQ_TRIANGLE</shape>
+      <scale>50</scale>
+      <locationX>813</locationX>
+      <locationY>625</locationY>
+      <rotation>90</rotation>
+      <colour>RED</colour>
     </cell>
     <cell>
       <shape>EQ_TRIANGLE</shape>
