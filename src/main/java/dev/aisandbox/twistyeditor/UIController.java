@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Random;
 import javafx.collections.FXCollections;
@@ -321,6 +322,38 @@ public class UIController {
       }
     } catch (IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  @FXML
+  void moveCellDown(ActionEvent event) {
+    if (selectedCell!=null) {
+      // save the cell
+      Cell target = selectedCell;
+      // work out the current index
+      int index = cellObservableList.indexOf(selectedCell);
+      if (index<cellObservableList.size()-1) {
+        Collections.swap(cellObservableList,index,index+1);
+      }
+      // reselect the original cell
+      cellList.scrollTo(target);
+      cellList.getSelectionModel().select(target);
+    }
+  }
+
+  @FXML
+  void moveCellUp(ActionEvent event) {
+    if (selectedCell!=null) {
+      // save the cell
+      Cell target = selectedCell;
+      // work out the current index
+      int index = cellObservableList.indexOf(selectedCell);
+      if (index>0) {
+        Collections.swap(cellObservableList,index,index-1);
+      }
+      // reselect the original cell
+      cellList.scrollTo(target);
+      cellList.getSelectionModel().select(target);
     }
   }
 

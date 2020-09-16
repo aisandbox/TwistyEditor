@@ -63,6 +63,15 @@
                               <ListView fx:id="cellList" VBox.vgrow="ALWAYS" />
                               <Label text="Cell #" />
                               <TextField fx:id="cellIDField" editable="false" />
+                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#moveCellUp" text="Move Up" />
+                                    <Button mnemonicParsing="false" onAction="#moveCellDown" text="Move Down" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </HBox>
                               <Label text="Cell Type" />
                               <ChoiceBox fx:id="cellShapeField" prefWidth="150.0" />
                               <Label text="location X" />
