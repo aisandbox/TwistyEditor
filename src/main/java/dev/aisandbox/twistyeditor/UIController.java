@@ -60,6 +60,7 @@ public class UIController {
 
   Cell selectedCell = null;
   Move selectedMove = null;
+  Loop selectedLoop = null;
 
   @Autowired
   BuildProperties buildProperties;
@@ -108,9 +109,6 @@ public class UIController {
 
   @FXML
   private ListView<Loop> loopList;
-
-  @FXML
-  private TextArea loopDescriptionField;
 
   @FXML
   void addCell(ActionEvent event) {
@@ -208,6 +206,10 @@ public class UIController {
       selectedMove.getLoops().add(loop);
       // add to the list of loops
       loopList.getItems().add(loop);
+      // select this loop
+      loopList.scrollTo(loop);
+      loopList.getSelectionModel().select(loop);
+      updateUI();
     }
   }
 
@@ -216,24 +218,61 @@ public class UIController {
     double x = event.getX();
     double y = event.getY();
     log.info("Button click @ {},{}", x, y);
-    Loop loop = loopList.getSelectionModel().getSelectedItem();
-    if (loop != null) {
+    if (selectedLoop != null) {
       // work out which cell this is
       Cell cell = puzzle.findCell(x, y);
-      if ((cell != null) && (!loop.getCells().contains(cell))) {
-        loop.getCells().add(cell);
+      if ((cell != null) && (!selectedLoop.getCells().contains(cell))) {
+        selectedLoop.getCells().add(cell);
         updateUI();
       }
     }
   }
 
   @FXML
-  void removeLoop(MouseEvent event) {
-    Loop loop = loopList.getSelectionModel().getSelectedItem();
-    if (loop != null) {
+  void removeLoop(ActionEvent event) {
+    if (selectedLoop != null) {
+      Loop loop = selectedLoop; // cache
       loopList.getItems().removeAll(loop);
       selectedMove.getLoops().remove(loop);
       updateUI();
+    }
+  }
+
+
+  @FXML
+  void flipLoop(ActionEvent event) {
+    if (selectedLoop != null) {
+      log.info("Reversing loop {}",selectedLoop);
+      Collections.reverse(selectedLoop.getCells());
+      updateUI();
+    }
+  }
+
+  @FXML
+  void copyMove(ActionEvent event) {
+    if (selectedMove!=null) {
+      // duplicate move
+      Move m2 = new Move();
+      m2.setName(selectedMove.getName()+" - copy");
+      // duplicate loops
+      for (Loop loop : selectedMove.getLoops()) {
+        Loop l2 = new Loop();
+        for (Cell c : loop.getCells()) {
+          l2.getCells().add(c);
+        }
+        m2.getLoops().add(l2);
+      }
+      // add move to puzzle
+      moveObservableList.add(m2);
+      moveList.scrollTo(m2);
+      moveList.getSelectionModel().select(m2);
+    }
+  }
+
+  @FXML
+  void delMove(ActionEvent event) {
+    if (selectedMove!=null) {
+      moveObservableList.remove(selectedMove);
     }
   }
 
@@ -402,7 +441,12 @@ public class UIController {
         updateUI();
       }
     });
-
+    // setup loops
+    loopList.getSelectionModel().selectedItemProperty().addListener((((observableValue, oldLoop, newLoop) -> {
+      log.info("Selected loop {}",newLoop);
+      selectedLoop = newLoop;
+      updateUI();
+    })));
     // setup cell views
     cellObservableList = FXCollections.observableList(puzzle.getCells());
     cellList.setItems(cellObservableList);

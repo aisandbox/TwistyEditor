@@ -40,8 +40,12 @@
         <Menu mnemonicParsing="false" text="Moves">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#addMove" text="Add Move" />
+                  <MenuItem mnemonicParsing="false" onAction="#copyMove" text="Copy Move" />
+                  <MenuItem mnemonicParsing="false" onAction="#delMove" text="Delete Move" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#addLoop" text="Add Loop" />
                   <MenuItem mnemonicParsing="false" onAction="#removeLoop" text="Remove Loop" />
+                  <MenuItem mnemonicParsing="false" onAction="#flipLoop" text="Flip Loop" />
           </items>
         </Menu>
       </menus>
