@@ -12,7 +12,7 @@
   <groupId>dev.aisandbox</groupId>
   <artifactId>twistyeditor</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>twistyeditor</name>
+  <name>Twisty Editor</name>
   <description>Editor for twisty puzzles</description>
 
   <properties>
