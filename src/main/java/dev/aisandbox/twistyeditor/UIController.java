@@ -153,6 +153,8 @@ public class UIController {
     }
   }
 
+
+
   @FXML
   void loadPuzzle(ActionEvent event) {
     // get the stage from the events
