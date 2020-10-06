@@ -26,6 +26,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -127,6 +129,17 @@ public class UIController {
 
   @FXML
   void savePuzzle(ActionEvent event) {
+    // compile the puzzle
+    log.info("Compiling the moves before saving");
+    Optional<String> warnings = puzzle.compileMoves();
+    if (warnings.isPresent()) {
+      log.warn("Warnings generated during compile");
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.setTitle("Puzzle Warning");
+      alert.setHeaderText("Warnings when compiling puzzle.");
+      alert.setContentText(warnings.get());
+      alert.showAndWait();
+    }
     // get the stage from the events
     Window window =
         ((MenuItem) event.getTarget()).getParentPopup().getScene().getWindow();

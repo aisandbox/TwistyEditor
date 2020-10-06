@@ -153,7 +153,7 @@ public class Puzzle {
   public Optional<String> compileMoves() {
     List<String> warnings = new ArrayList<>();
     // clear old compiled moves
-    compiledMoves.clear();
+    compiledMoves = new HashMap<>();
     for (Move move : moves) {
       CompiledMove cmove = new CompiledMove(cells.size());
       // copy move image

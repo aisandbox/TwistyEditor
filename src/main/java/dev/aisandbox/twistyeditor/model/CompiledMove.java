@@ -1,9 +1,11 @@
 package dev.aisandbox.twistyeditor.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import java.awt.image.BufferedImage;
 import lombok.Getter;
 import lombok.Setter;
 
+@XStreamAlias("cmove")
 public class CompiledMove {
 
   private final int cardinality;
