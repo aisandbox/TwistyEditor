@@ -15,6 +15,7 @@ public class Move {
   public static final int MOVE_ICON_WIDTH = 60;
   /** Constant <code>MOVE_ICON_HEIGHT=100</code>. */
   public static final int MOVE_ICON_HEIGHT = 100;
+  public BufferedImage imageIcon = new BufferedImage(MOVE_ICON_WIDTH,MOVE_ICON_HEIGHT,BufferedImage.TYPE_INT_RGB);
 
   @Getter @Setter String name;
   @Getter List<Loop> loops=new ArrayList<>();
