@@ -18,10 +18,6 @@ public class TwistyeditorApplication extends Application {
   private ConfigurableApplicationContext context;
   private Parent rootNode;
 
-  public static void main(String[] args) {
-    Application.launch(TwistyeditorApplication.class,args);
-  }
-
   @Override
   public void init() throws Exception {
     log.info("Initialising application - FX");

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.Getter;
+import lombok.Setter;
 
 @XStreamAlias("puzzle")
 public class Puzzle {

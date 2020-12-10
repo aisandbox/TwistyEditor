@@ -7,7 +7,13 @@ import dev.aisandbox.twistyeditor.model.Loop;
 import dev.aisandbox.twistyeditor.model.Move;
 import dev.aisandbox.twistyeditor.model.Puzzle;
 import dev.aisandbox.twistyeditor.model.shapes.ShapeEnum;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -64,53 +70,39 @@ public class UIController {
   Move selectedMove = null;
   Loop selectedLoop = null;
 
-  @Autowired
-  BuildProperties buildProperties;
+  @Autowired BuildProperties buildProperties;
 
-  @FXML
-  private ListView<Cell> cellList;
+  @FXML private ListView<Cell> cellList;
 
-  @FXML
-  private Label puzzleName;
+  @FXML private Label puzzleName;
 
-  @FXML
-  private Label editorInfo;
+  @FXML private Label editorInfo;
 
-  @FXML
-  private TextField cellIDField;
+  @FXML private TextField cellIDField;
 
-  @FXML
-  private ImageView puzzleCellImage;
+  @FXML private ImageView puzzleCellImage;
 
-  @FXML
-  private ImageView puzzleMoveImage;
+  @FXML private ImageView puzzleMoveImage;
 
-  @FXML
-  private TextField rotationField;
+  @FXML private TextField rotationField;
 
-  @FXML
-  private TextField scaleField;
+  @FXML private TextField scaleField;
 
-  @FXML
-  private ChoiceBox<ShapeEnum> cellShapeField;
+  @FXML private ChoiceBox<ShapeEnum> cellShapeField;
 
-  @FXML
-  private ChoiceBox<ColourEnum> colourChooser;
+  @FXML private ChoiceBox<ColourEnum> colourChooser;
 
-  @FXML
-  private TextField locationXField;
+  @FXML private TextField locationXField;
 
-  @FXML
-  private TextField locationYField;
+  @FXML private TextField locationYField;
 
-  @FXML
-  private ListView<Move> moveList;
+  @FXML private ListView<Move> moveList;
 
-  @FXML
-  private TextField moveName;
+  @FXML private TextField moveName;
 
-  @FXML
-  private ListView<Loop> loopList;
+  @FXML private ListView<Loop> loopList;
+
+  @FXML private ImageView moveIcon;
 
   @FXML
   void addCell(ActionEvent event) {
@@ -141,15 +133,14 @@ public class UIController {
       alert.showAndWait();
     }
     // get the stage from the events
-    Window window =
-        ((MenuItem) event.getTarget()).getParentPopup().getScene().getWindow();
+    Window window = ((MenuItem) event.getTarget()).getParentPopup().getScene().getWindow();
     // show a file chooser
     FileChooser fileChooser = new FileChooser();
-    //Set extension filter for text files
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-        "Twisty puzzzles (*.tp)", "*.tp");
+    // Set extension filter for text files
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("Twisty puzzzles (*.tp)", "*.tp");
     fileChooser.getExtensionFilters().add(extFilter);
-    //Show save file dialog
+    // Show save file dialog
     File file = fileChooser.showSaveDialog(window);
     if (file != null) {
       try {
@@ -166,20 +157,43 @@ public class UIController {
     }
   }
 
-
+  @FXML
+  void generateIcon(ActionEvent event) {
+    if (selectedMove != null) {
+      // create a new icon
+      BufferedImage image =
+          new BufferedImage(
+              Move.MOVE_ICON_WIDTH, Move.MOVE_ICON_HEIGHT, BufferedImage.TYPE_INT_RGB);
+      Graphics2D graphics2D = image.createGraphics();
+      graphics2D.setColor(Color.WHITE);
+      graphics2D.fillRect(0,0,Move.MOVE_ICON_WIDTH,Move.MOVE_ICON_HEIGHT);
+      Font font = new Font("Hack", Font.PLAIN, 22);
+      graphics2D.setFont(font);
+      graphics2D.setRenderingHint(
+          RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+      // Get the FontMetrics
+      FontMetrics metrics = graphics2D.getFontMetrics(font);
+// Determine the X coordinate for the text
+      int dx = (Move.MOVE_ICON_WIDTH - metrics.stringWidth(selectedMove.getName())) / 2;
+      // Set the font
+      graphics2D.setColor(Color.BLACK);
+      // Draw the String
+      graphics2D.drawString(selectedMove.getName(), dx, Move.MOVE_ICON_HEIGHT - 4);
+      selectedMove.setImageIcon(image);
+    }
+  }
 
   @FXML
   void loadPuzzle(ActionEvent event) {
     // get the stage from the events
-    Window window =
-        ((MenuItem) event.getTarget()).getParentPopup().getScene().getWindow();
+    Window window = ((MenuItem) event.getTarget()).getParentPopup().getScene().getWindow();
     // show a file chooser
     FileChooser fileChooser = new FileChooser();
-    //Set extension filter for text files
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-        "Twisty puzzzles (*.tp)", "*.tp");
+    // Set extension filter for text files
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("Twisty puzzzles (*.tp)", "*.tp");
     fileChooser.getExtensionFilters().add(extFilter);
-    //Show save file dialog
+    // Show save file dialog
     File file = fileChooser.showOpenDialog(window);
     if (file != null) {
       try {
@@ -253,11 +267,10 @@ public class UIController {
     }
   }
 
-
   @FXML
   void flipLoop(ActionEvent event) {
     if (selectedLoop != null) {
-      log.info("Reversing loop {}",selectedLoop);
+      log.info("Reversing loop {}", selectedLoop);
       Collections.reverse(selectedLoop.getCells());
       updateUI();
     }
@@ -265,10 +278,10 @@ public class UIController {
 
   @FXML
   void copyMove(ActionEvent event) {
-    if (selectedMove!=null) {
+    if (selectedMove != null) {
       // duplicate move
       Move m2 = new Move();
-      m2.setName(selectedMove.getName()+" - copy");
+      m2.setName(selectedMove.getName() + " - copy");
       // duplicate loops
       for (Loop loop : selectedMove.getLoops()) {
         Loop l2 = new Loop();
@@ -286,7 +299,7 @@ public class UIController {
 
   @FXML
   void delMove(ActionEvent event) {
-    if (selectedMove!=null) {
+    if (selectedMove != null) {
       moveObservableList.remove(selectedMove);
     }
   }
@@ -320,7 +333,6 @@ public class UIController {
     updateUI();
   }
 
-
   @FXML
   void selectCell(MouseEvent event) {
     // work out which cell was clicked
@@ -328,7 +340,7 @@ public class UIController {
     double y = event.getY();
     log.info("Button click @ {},{}", x, y);
     Cell cell = puzzle.findCell(x, y);
-    if (cell!=null) {
+    if (cell != null) {
       cellList.scrollTo(cell);
       cellList.getSelectionModel().select(cell);
     }
@@ -341,7 +353,7 @@ public class UIController {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pyramid.fxml"));
       Parent parent = fxmlLoader.load();
       PyramidController dialogController = fxmlLoader.<PyramidController>getController();
-      //Scene scene = new Scene(parent, 400, 300);
+      // Scene scene = new Scene(parent, 400, 300);
       Scene scene = new Scene(parent);
       Stage stage = new Stage();
       stage.initModality(Modality.APPLICATION_MODAL);
@@ -353,7 +365,7 @@ public class UIController {
         int scale = dialogController.getScale();
         double dx = scale * Math.cos(Math.toRadians(30));
         double dy = scale * Math.sin(Math.toRadians(30)) + scale;
-        double stepy = scale - scale*Math.cos(Math.toRadians(60));
+        double stepy = scale - scale * Math.cos(Math.toRadians(60));
         // draw pyramid
         for (int level = 0; level < dialogController.getLevels(); level++) {
           boolean up = true;
@@ -362,7 +374,7 @@ public class UIController {
             log.info("Adding new cell {},{}", x, level);
             Cell c = new Cell();
             c.setLocationX((int) (x * dx));
-            c.setLocationY((int) (level * dy-(up?0:stepy)));
+            c.setLocationY((int) (level * dy - (up ? 0 : stepy)));
             c.setRotation(up ? 90 : -90);
             c.setScale(dialogController.getScale());
             c.setShape(ShapeEnum.EQ_TRIANGLE);
@@ -381,13 +393,13 @@ public class UIController {
 
   @FXML
   void moveCellDown(ActionEvent event) {
-    if (selectedCell!=null) {
+    if (selectedCell != null) {
       // save the cell
       Cell target = selectedCell;
       // work out the current index
       int index = cellObservableList.indexOf(selectedCell);
-      if (index<cellObservableList.size()-1) {
-        Collections.swap(cellObservableList,index,index+1);
+      if (index < cellObservableList.size() - 1) {
+        Collections.swap(cellObservableList, index, index + 1);
       }
       // reselect the original cell
       cellList.scrollTo(target);
@@ -397,13 +409,13 @@ public class UIController {
 
   @FXML
   void moveCellUp(ActionEvent event) {
-    if (selectedCell!=null) {
+    if (selectedCell != null) {
       // save the cell
       Cell target = selectedCell;
       // work out the current index
       int index = cellObservableList.indexOf(selectedCell);
-      if (index>0) {
-        Collections.swap(cellObservableList,index,index-1);
+      if (index > 0) {
+        Collections.swap(cellObservableList, index, index - 1);
       }
       // reselect the original cell
       cellList.scrollTo(target);
@@ -421,127 +433,158 @@ public class UIController {
     updateUI();
   }
 
-
   @FXML
   void initialize() {
-    assert
-        cellList != null : "fx:id=\"cellList\" was not injected: check your FXML file 'ui.fxml'.";
-    assert puzzleName
-        != null : "fx:id=\"puzzleName\" was not injected: check your FXML file 'ui.fxml'.";
-    assert editorInfo
-        != null : "fx:id=\"editorInfo\" was not injected: check your FXML file 'ui.fxml'.";
+    assert cellList != null
+        : "fx:id=\"cellList\" was not injected: check your FXML file 'ui.fxml'.";
+    assert puzzleName != null
+        : "fx:id=\"puzzleName\" was not injected: check your FXML file 'ui.fxml'.";
+    assert editorInfo != null
+        : "fx:id=\"editorInfo\" was not injected: check your FXML file 'ui.fxml'.";
     // setup loops (dont try to bind)
 
     // setup move views
     moveObservableList = FXCollections.observableList(puzzle.getMoves());
     moveList.setItems(moveObservableList);
-    moveList.getSelectionModel().selectedItemProperty()
-        .addListener(((observableValue, oldMove, newMove) -> {
-          log.info("Selected move {}", newMove);
-          if (newMove == null) {
-            selectedMove = null;
-            moveName.setText("");
-            loopList.getItems().clear();
-          } else {
-            selectedMove = newMove;
-            moveName.setText(newMove.getName());
-            loopList.getItems().clear();
-            loopList.getItems().addAll(selectedMove.getLoops());
-          }
-        }));
-    moveName.textProperty().addListener((observable, oldValue, newValue) -> {
-      // get selected cell
-      if (selectedMove != null) {
-        selectedMove.setName(newValue);
-        updateUI();
-      }
-    });
+    moveList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            ((observableValue, oldMove, newMove) -> {
+              log.info("Selected move {}", newMove);
+              if (newMove == null) {
+                selectedMove = null;
+                moveName.setText("");
+                loopList.getItems().clear();
+              } else {
+                puzzleCellImage.setImage(SwingFXUtils.toFXImage(puzzle.getCellImage(selectedCell), null));
+                selectedMove = newMove;
+                moveName.setText(newMove.getName());
+                loopList.getItems().clear();
+                loopList.getItems().addAll(selectedMove.getLoops());
+              }
+            }));
+    moveName
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              // get selected cell
+              if (selectedMove != null) {
+                selectedMove.setName(newValue);
+                updateUI();
+              }
+            });
     // setup loops
-    loopList.getSelectionModel().selectedItemProperty().addListener((((observableValue, oldLoop, newLoop) -> {
-      log.info("Selected loop {}",newLoop);
-      selectedLoop = newLoop;
-      updateUI();
-    })));
+    loopList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (((observableValue, oldLoop, newLoop) -> {
+              log.info("Selected loop {}", newLoop);
+              selectedLoop = newLoop;
+              updateUI();
+            })));
     // setup cell views
     cellObservableList = FXCollections.observableList(puzzle.getCells());
     cellList.setItems(cellObservableList);
-    cellList.getSelectionModel().selectedItemProperty()
-        .addListener((observableValue, oldCell, newCell) -> {
-          if (newCell == null) {
-            selectedCell = null;
-            cellIDField.setText("");
-            cellShapeField.getSelectionModel().select(null);
-            locationXField.setText("");
-            locationYField.setText("");
-            rotationField.setText("");
-            scaleField.setText("");
-          } else {
-            log.info("New selection {}", newCell);
-            selectedCell = newCell;
-            cellIDField.setText(Integer.toString(puzzle.getCells().indexOf(newCell)));
-            cellShapeField.getSelectionModel().select(newCell.getShape());
-            locationXField.setText(Integer.toString(newCell.getLocationX()));
-            locationYField.setText(Integer.toString(newCell.getLocationY()));
-            rotationField.setText(Integer.toString(newCell.getRotation()));
-            scaleField.setText(Integer.toString(newCell.getScale()));
-            colourChooser.getSelectionModel().select(newCell.getColour());
-          }
-          // update drawing
-          updateUI();
-        });
+    cellList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observableValue, oldCell, newCell) -> {
+              if (newCell == null) {
+                selectedCell = null;
+                cellIDField.setText("");
+                cellShapeField.getSelectionModel().select(null);
+                locationXField.setText("");
+                locationYField.setText("");
+                rotationField.setText("");
+                scaleField.setText("");
+              } else {
+                log.info("New selection {}", newCell);
+                selectedCell = newCell;
+                cellIDField.setText(Integer.toString(puzzle.getCells().indexOf(newCell)));
+                cellShapeField.getSelectionModel().select(newCell.getShape());
+                locationXField.setText(Integer.toString(newCell.getLocationX()));
+                locationYField.setText(Integer.toString(newCell.getLocationY()));
+                rotationField.setText(Integer.toString(newCell.getRotation()));
+                scaleField.setText(Integer.toString(newCell.getScale()));
+                colourChooser.getSelectionModel().select(newCell.getColour());
+              }
+              // update drawing
+              updateUI();
+            });
     // setup shape choice
     cellShapeField.setItems(FXCollections.observableArrayList(ShapeEnum.values()));
-    cellShapeField.getSelectionModel().selectedItemProperty()
-        .addListener((observableVAlue, oldShape, newShape) -> {
-          // get selected cell
-          if (selectedCell != null) {
-            selectedCell.setShape(newShape);
-          }
-          updateUI();
-        });
+    cellShapeField
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observableVAlue, oldShape, newShape) -> {
+              // get selected cell
+              if (selectedCell != null) {
+                selectedCell.setShape(newShape);
+              }
+              updateUI();
+            });
     // setup colour choice
     colourChooser.setItems(FXCollections.observableArrayList(ColourEnum.values()));
-    colourChooser.getSelectionModel().selectedItemProperty()
-        .addListener(((observableValue, oldval, newval) -> {
-          if (selectedCell != null) {
-            selectedCell.setColour(newval);
-          }
-          updateUI();
-        }));
+    colourChooser
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            ((observableValue, oldval, newval) -> {
+              if (selectedCell != null) {
+                selectedCell.setColour(newval);
+              }
+              updateUI();
+            }));
     // setup update locations
     addDigitTextFormat(locationXField);
     addDigitTextFormat(locationYField);
-    locationXField.textProperty().addListener((observable, oldValue, newValue) -> {
-      // get selected cell
-      if (selectedCell != null) {
-        selectedCell.setLocationX(Integer.parseInt(newValue));
-        updateUI();
-      }
-    });
-    locationYField.textProperty().addListener((observable, oldValue, newValue) -> {
-      // get selected cell
-      if (selectedCell != null) {
-        selectedCell.setLocationY(Integer.parseInt(newValue));
-        updateUI();
-      }
-    });
+    locationXField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              // get selected cell
+              if (selectedCell != null) {
+                selectedCell.setLocationX(Integer.parseInt(newValue));
+                updateUI();
+              }
+            });
+    locationYField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              // get selected cell
+              if (selectedCell != null) {
+                selectedCell.setLocationY(Integer.parseInt(newValue));
+                updateUI();
+              }
+            });
     // scale and rotation
     addDigitTextFormat(rotationField);
     addDigitTextFormat(scaleField);
-    rotationField.textProperty().addListener((observable, oldValue, newValue) -> {
-      if (selectedCell != null) {
-        selectedCell.setRotation(Integer.parseInt(newValue));
-        updateUI();
-      }
-    });
-    scaleField.textProperty().addListener((observable, oldValue, newValue) -> {
-      // get selected cell
-      Cell cell = cellList.getSelectionModel().getSelectedItem();
-      if (selectedCell != null) {
-        selectedCell.setScale(Integer.parseInt(newValue));
-        updateUI();
-      }
-    });
+    rotationField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (selectedCell != null) {
+                selectedCell.setRotation(Integer.parseInt(newValue));
+                updateUI();
+              }
+            });
+    scaleField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              // get selected cell
+              Cell cell = cellList.getSelectionModel().getSelectedItem();
+              if (selectedCell != null) {
+                selectedCell.setScale(Integer.parseInt(newValue));
+                updateUI();
+              }
+            });
     // report version
     editorInfo.setText(buildProperties.getVersion() + " - " + buildProperties.getTime().toString());
   }
@@ -550,36 +593,36 @@ public class UIController {
     // redraw the cell list
     cellList.refresh();
     // redraw the puzzle cell diagram
-    puzzleCellImage.setImage(
-        SwingFXUtils.toFXImage(
-            puzzle.getCellImage(selectedCell),
-            null));
+    puzzleCellImage.setImage(SwingFXUtils.toFXImage(puzzle.getCellImage(selectedCell), null));
     // redraw the move list
     moveList.refresh();
     // redraw the move cell diagram
-    puzzleMoveImage.setImage(SwingFXUtils.toFXImage(
-        puzzle.getMoveImage(selectedMove, loopList.getSelectionModel().getSelectedItem()), null));
+    puzzleMoveImage.setImage(
+        SwingFXUtils.toFXImage(
+            puzzle.getMoveImage(selectedMove, loopList.getSelectionModel().getSelectedItem()),
+            null));
     // redraw the loop list
     loopList.refresh();
   }
 
   public static void addDigitTextFormat(TextField textField) {
     DecimalFormat format = new DecimalFormat("#");
-    final TextFormatter<Object> decimalTextFormatter = new TextFormatter<>(change -> {
-      if (change.getControlNewText().isEmpty()) {
-        return change;
-      }
-      ParsePosition parsePosition = new ParsePosition(0);
-      Object object = format.parse(change.getControlNewText(), parsePosition);
+    final TextFormatter<Object> decimalTextFormatter =
+        new TextFormatter<>(
+            change -> {
+              if (change.getControlNewText().isEmpty()) {
+                return change;
+              }
+              ParsePosition parsePosition = new ParsePosition(0);
+              Object object = format.parse(change.getControlNewText(), parsePosition);
 
-      if (object == null || parsePosition.getIndex() < change.getControlNewText().length()) {
-        return null;
-      } else {
-        return change;
-      }
-    });
+              if (object == null
+                  || parsePosition.getIndex() < change.getControlNewText().length()) {
+                return null;
+              } else {
+                return change;
+              }
+            });
     textField.setTextFormatter(decimalTextFormatter);
   }
-
-
 }

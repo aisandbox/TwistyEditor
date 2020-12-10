@@ -160,6 +160,10 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <executable>true</executable>
+          <mainClass>dev.aisandbox.twistyeditor.Launcher</mainClass>
+        </configuration>
         <executions>
           <execution>
             <id>build-info</id>
