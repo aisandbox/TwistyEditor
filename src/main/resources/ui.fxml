@@ -47,6 +47,9 @@
                   <MenuItem mnemonicParsing="false" onAction="#removeLoop" text="Remove Loop" />
                   <MenuItem mnemonicParsing="false" onAction="#flipLoop" text="Flip Loop" />
                   <MenuItem mnemonicParsing="false" onAction="#generateIcon" text="Regenerate Icon" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportSpritesheet" text="Export spritesheet" />
+                  <MenuItem mnemonicParsing="false" onAction="#importSpritesheet" text="Import Spritesheet" />
           </items>
         </Menu>
       </menus>
