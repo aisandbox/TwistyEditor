@@ -49,6 +49,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javax.imageio.ImageIO;
 import javax.swing.Action;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,9 +146,7 @@ public class UIController {
     if (file != null) {
       try {
         log.info("Saving to {}", file.getAbsolutePath());
-        XStream xstream = new XStream();
-        xstream.processAnnotations(Puzzle.class);
-        xstream.processAnnotations(Cell.class);
+        XStream xstream = PuzzleUtil.getCodec();
         BufferedWriter out = new BufferedWriter(new FileWriter(file));
         out.write(xstream.toXML(puzzle));
         out.close();
@@ -180,6 +179,52 @@ public class UIController {
       // Draw the String
       graphics2D.drawString(selectedMove.getName(), dx, Move.MOVE_ICON_HEIGHT - 4);
       selectedMove.setImageIcon(image);
+      moveIcon.setImage(SwingFXUtils.toFXImage(image,null));
+    }
+  }
+
+  @FXML
+  void importSpritesheet(ActionEvent event) {
+    log.info("loading spritesheet");
+    // get the stage from the events
+    Window window = ((MenuItem) event.getTarget()).getParentPopup().getScene().getWindow();
+    // show a file chooser
+    FileChooser fileChooser = new FileChooser();
+    // Set extension filter for image
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("PNG Image", "*.png");
+    fileChooser.getExtensionFilters().add(extFilter);
+    // Show save file dialog
+    File file = fileChooser.showOpenDialog(window);
+    if (file != null) {
+      try {
+        BufferedImage image = ImageIO.read(file);
+        puzzle.setSpritesheet(image);
+      } catch (IOException e) {
+        log.error("Error reading spritesheet",e);
+      }
+    }
+  }
+
+  @FXML
+  void exportSpritesheet(ActionEvent event) {
+    log.info("Exporting spritesheet");
+    // get the stage from the events
+    Window window = ((MenuItem) event.getTarget()).getParentPopup().getScene().getWindow();
+    // show a file chooser
+    FileChooser fileChooser = new FileChooser();
+    // Set extension filter for image
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("PNG Image", "*.png");
+    fileChooser.getExtensionFilters().add(extFilter);
+    // Show save file dialog
+    File file = fileChooser.showSaveDialog(window);
+    if (file != null) {
+      try {
+        ImageIO.write(puzzle.getSpritesheet(),"png",file);
+      } catch (IOException e) {
+        log.error("Error writing spritesheet",e);
+      }
     }
   }
 
@@ -198,9 +243,7 @@ public class UIController {
     if (file != null) {
       try {
         log.info("Loading puzzle from {}", file.getAbsolutePath());
-        XStream xstream = new XStream();
-        xstream.processAnnotations(Puzzle.class);
-        xstream.processAnnotations(Cell.class);
+        XStream xstream = PuzzleUtil.getCodec();
         puzzle = (Puzzle) xstream.fromXML(file);
         log.info("Puzzle loaded");
         log.info("Loaded puzzle with {} cells", puzzle.getCells().size());
@@ -456,12 +499,14 @@ public class UIController {
                 selectedMove = null;
                 moveName.setText("");
                 loopList.getItems().clear();
+                moveIcon.setImage(SwingFXUtils.toFXImage(new BufferedImage(Move.MOVE_ICON_WIDTH,Move.MOVE_ICON_HEIGHT,BufferedImage.TYPE_INT_RGB),null));
               } else {
                 puzzleCellImage.setImage(SwingFXUtils.toFXImage(puzzle.getCellImage(selectedCell), null));
                 selectedMove = newMove;
                 moveName.setText(newMove.getName());
                 loopList.getItems().clear();
                 loopList.getItems().addAll(selectedMove.getLoops());
+                moveIcon.setImage(SwingFXUtils.toFXImage(newMove.getImageIcon(),null));
               }
             }));
     moveName
