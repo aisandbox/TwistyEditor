@@ -430,7 +430,7 @@
     </move>
     <move>
       <imageIcon>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</imageIcon>
-      <name>R </name>
+      <name>R</name>
       <loops>
         <Loop>
           <cells>
@@ -939,51 +939,6 @@
       </cmove>
     </entry>
     <entry>
-      <string>R </string>
-      <cmove>
-        <cardinality>36</cardinality>
-        <matrix>
-          <int>0</int>
-          <int>1</int>
-          <int>2</int>
-          <int>20</int>
-          <int>4</int>
-          <int>5</int>
-          <int>25</int>
-          <int>21</int>
-          <int>22</int>
-          <int>9</int>
-          <int>10</int>
-          <int>11</int>
-          <int>12</int>
-          <int>13</int>
-          <int>14</int>
-          <int>15</int>
-          <int>16</int>
-          <int>17</int>
-          <int>18</int>
-          <int>19</int>
-          <int>28</int>
-          <int>29</int>
-          <int>27</int>
-          <int>23</int>
-          <int>24</int>
-          <int>30</int>
-          <int>26</int>
-          <int>8</int>
-          <int>3</int>
-          <int>7</int>
-          <int>6</int>
-          <int>31</int>
-          <int>32</int>
-          <int>33</int>
-          <int>34</int>
-          <int>35</int>
-        </matrix>
-        <image reference="../../../../moves/move[10]/imageIcon"/>
-      </cmove>
-    </entry>
-    <entry>
       <string>r</string>
       <cmove>
         <cardinality>36</cardinality>
@@ -1071,6 +1026,51 @@
           <int>0</int>
         </matrix>
         <image reference="../../../../moves/move[7]/imageIcon"/>
+      </cmove>
+    </entry>
+    <entry>
+      <string>R</string>
+      <cmove>
+        <cardinality>36</cardinality>
+        <matrix>
+          <int>0</int>
+          <int>1</int>
+          <int>2</int>
+          <int>20</int>
+          <int>4</int>
+          <int>5</int>
+          <int>25</int>
+          <int>21</int>
+          <int>22</int>
+          <int>9</int>
+          <int>10</int>
+          <int>11</int>
+          <int>12</int>
+          <int>13</int>
+          <int>14</int>
+          <int>15</int>
+          <int>16</int>
+          <int>17</int>
+          <int>18</int>
+          <int>19</int>
+          <int>28</int>
+          <int>29</int>
+          <int>27</int>
+          <int>23</int>
+          <int>24</int>
+          <int>30</int>
+          <int>26</int>
+          <int>8</int>
+          <int>3</int>
+          <int>7</int>
+          <int>6</int>
+          <int>31</int>
+          <int>32</int>
+          <int>33</int>
+          <int>34</int>
+          <int>35</int>
+        </matrix>
+        <image reference="../../../../moves/move[10]/imageIcon"/>
       </cmove>
     </entry>
     <entry>
