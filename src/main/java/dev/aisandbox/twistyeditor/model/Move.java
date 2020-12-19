@@ -17,15 +17,11 @@ public class Move {
   public static final int MOVE_ICON_HEIGHT = 100;
 
   @Getter @Setter
-  public BufferedImage imageIcon =
+  private BufferedImage imageIcon =
       new BufferedImage(MOVE_ICON_WIDTH, MOVE_ICON_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
   @Getter @Setter String name;
   @Getter List<Loop> loops = new ArrayList<>();
-
-  @Getter
-  BufferedImage image =
-      new BufferedImage(MOVE_ICON_WIDTH, MOVE_ICON_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
   public void removeCell(Cell c) {
     for (Loop l : loops) {

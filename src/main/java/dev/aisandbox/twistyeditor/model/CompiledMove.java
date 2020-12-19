@@ -12,7 +12,7 @@ public class CompiledMove {
 
   private final int[] matrix;
 
-  @Getter @Setter BufferedImage image;
+  @Getter @Setter private BufferedImage image;
 
   public CompiledMove(int cardinality) {
     this.cardinality = cardinality;

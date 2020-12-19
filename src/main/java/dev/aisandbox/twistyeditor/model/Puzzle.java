@@ -158,7 +158,7 @@ public class Puzzle {
     for (Move move : moves) {
       CompiledMove cmove = new CompiledMove(cells.size());
       // copy move image
-      cmove.setImage(move.getImage());
+      cmove.setImage(move.getImageIcon());
       // setup matrix
       cmove.resetMove();
       // check we have loops
@@ -194,6 +194,29 @@ public class Puzzle {
       return Optional.empty();
     } else {
       return Optional.of(String.join("\n", warnings));
+    }
+  }
+
+  public BufferedImage getSpritesheet() {
+    // work out the image size
+    int rows = moves.size() / 6;
+    if (moves.size() % 6>0) {
+      rows++;
+    }
+    BufferedImage image = new BufferedImage(Move.MOVE_ICON_WIDTH * 6,Move.MOVE_ICON_HEIGHT*rows,BufferedImage.TYPE_INT_RGB);
+    Graphics2D g = image.createGraphics();
+    for (int i=0;i<moves.size();i++) {
+      int x = i%6;
+      int y=i/6;
+      g.drawImage(moves.get(i).getImageIcon(),x*Move.MOVE_ICON_WIDTH,y*Move.MOVE_ICON_HEIGHT,null);
+    }
+    return image;
+  }
+
+  public void setSpritesheet(BufferedImage image) {
+    for (int i=0;i<moves.size();i++) {
+      int x=i%6;int y=i/6;
+      moves.get(i).setImageIcon(image.getSubimage(x*Move.MOVE_ICON_WIDTH,y*Move.MOVE_ICON_HEIGHT,Move.MOVE_ICON_WIDTH,Move.MOVE_ICON_HEIGHT));
     }
   }
 }
