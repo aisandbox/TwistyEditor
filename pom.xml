@@ -36,11 +36,18 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.11</version>
     </dependency>
+    <!-- Apache Commons Codec -->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.15</version>
+    </dependency>
+
     <!-- XStream XML encoder -->
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
-      <version>1.4.13</version>
+      <version>1.4.15</version>
     </dependency>
     <!-- Java FX -->
 
