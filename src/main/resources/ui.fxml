@@ -24,7 +24,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#newPuzzle" text="New" />
+            <MenuItem mnemonicParsing="false" onAction="#resetPuzzle" text="New" />
             <MenuItem mnemonicParsing="false" onAction="#loadPuzzle" text="Open…" />
             <MenuItem mnemonicParsing="false" onAction="#savePuzzle" text="Save" />
           </items>
@@ -35,6 +35,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#centerCells" text="Center Cells" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#addPyramid" text="Create Pyramid" />
+                  <MenuItem mnemonicParsing="false" onAction="#addCuboid" text="Create Cuboid" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Moves">

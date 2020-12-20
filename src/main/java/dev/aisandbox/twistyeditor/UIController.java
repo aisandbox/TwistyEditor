@@ -3,6 +3,7 @@ package dev.aisandbox.twistyeditor;
 import com.thoughtworks.xstream.XStream;
 import dev.aisandbox.twistyeditor.model.Cell;
 import dev.aisandbox.twistyeditor.model.ColourEnum;
+import dev.aisandbox.twistyeditor.model.CuboidBuilder;
 import dev.aisandbox.twistyeditor.model.Loop;
 import dev.aisandbox.twistyeditor.model.Move;
 import dev.aisandbox.twistyeditor.model.Puzzle;
@@ -19,7 +20,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Collections;
 import java.util.Optional;
@@ -35,14 +35,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -50,7 +47,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javax.imageio.ImageIO;
-import javax.swing.Action;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.BuildProperties;
@@ -404,7 +400,7 @@ public class UIController {
       stage.showAndWait();
       if (dialogController.isCommit()) {
         // clear old puzzle
-        newPuzzle(event);
+        resetPuzzle(event);
         int scale = dialogController.getScale();
         double dx = scale * Math.cos(Math.toRadians(30));
         double dy = scale * Math.sin(Math.toRadians(30)) + scale;
@@ -426,6 +422,36 @@ public class UIController {
             up = !up;
           }
         }
+        // center pyramid
+        centerCells(event);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
+  void addCuboid(ActionEvent event) {
+    try {
+      // ask how many levels
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/cuboid.fxml"));
+      Parent parent = fxmlLoader.load();
+      CuboidController dialogController = fxmlLoader.<CuboidController>getController();
+      // Scene scene = new Scene(parent, 400, 300);
+      Scene scene = new Scene(parent);
+      Stage stage = new Stage();
+      stage.initModality(Modality.APPLICATION_MODAL);
+      stage.setScene(scene);
+      stage.showAndWait();
+      if (dialogController.isCommit()) {
+        // clear old puzzle
+        resetPuzzle(event);
+
+        CuboidBuilder builder = new CuboidBuilder(puzzle);
+        builder.createCuboid(
+            dialogController.getWidth(),
+            dialogController.getHeight(),
+            dialogController.getDepth());
         // center pyramid
         centerCells(event);
       }
@@ -467,7 +493,7 @@ public class UIController {
   }
 
   @FXML
-  public void newPuzzle(ActionEvent event) {
+  public void resetPuzzle(ActionEvent event) {
     // remove all moves
     moveObservableList.clear();
     // remove all cells
