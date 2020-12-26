@@ -23,6 +23,8 @@ public class Move {
   @Getter @Setter String name;
   @Getter List<Loop> loops = new ArrayList<>();
 
+  @Getter @Setter int cost=1;
+
   public void removeCell(Cell c) {
     for (Loop l : loops) {
       l.removeCell(c);

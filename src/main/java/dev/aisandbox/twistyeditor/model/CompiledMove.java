@@ -14,6 +14,8 @@ public class CompiledMove {
 
   @Getter @Setter private BufferedImage image;
 
+  @Getter @Setter private int cost;
+
   public CompiledMove(int cardinality) {
     this.cardinality = cardinality;
     matrix = new int[cardinality];

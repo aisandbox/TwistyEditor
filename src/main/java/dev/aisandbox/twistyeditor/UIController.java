@@ -161,21 +161,21 @@ public class UIController {
               Move.MOVE_ICON_WIDTH, Move.MOVE_ICON_HEIGHT, BufferedImage.TYPE_INT_RGB);
       Graphics2D graphics2D = image.createGraphics();
       graphics2D.setColor(Color.WHITE);
-      graphics2D.fillRect(0,0,Move.MOVE_ICON_WIDTH,Move.MOVE_ICON_HEIGHT);
+      graphics2D.fillRect(0, 0, Move.MOVE_ICON_WIDTH, Move.MOVE_ICON_HEIGHT);
       Font font = new Font("Hack", Font.PLAIN, 22);
       graphics2D.setFont(font);
       graphics2D.setRenderingHint(
           RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
       // Get the FontMetrics
       FontMetrics metrics = graphics2D.getFontMetrics(font);
-// Determine the X coordinate for the text
+      // Determine the X coordinate for the text
       int dx = (Move.MOVE_ICON_WIDTH - metrics.stringWidth(selectedMove.getName())) / 2;
       // Set the font
       graphics2D.setColor(Color.BLACK);
       // Draw the String
       graphics2D.drawString(selectedMove.getName(), dx, Move.MOVE_ICON_HEIGHT - 4);
       selectedMove.setImageIcon(image);
-      moveIcon.setImage(SwingFXUtils.toFXImage(image,null));
+      moveIcon.setImage(SwingFXUtils.toFXImage(image, null));
     }
   }
 
@@ -187,8 +187,7 @@ public class UIController {
     // show a file chooser
     FileChooser fileChooser = new FileChooser();
     // Set extension filter for image
-    FileChooser.ExtensionFilter extFilter =
-        new FileChooser.ExtensionFilter("PNG Image", "*.png");
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG Image", "*.png");
     fileChooser.getExtensionFilters().add(extFilter);
     // Show save file dialog
     File file = fileChooser.showOpenDialog(window);
@@ -197,7 +196,7 @@ public class UIController {
         BufferedImage image = ImageIO.read(file);
         puzzle.setSpritesheet(image);
       } catch (IOException e) {
-        log.error("Error reading spritesheet",e);
+        log.error("Error reading spritesheet", e);
       }
     }
   }
@@ -210,16 +209,15 @@ public class UIController {
     // show a file chooser
     FileChooser fileChooser = new FileChooser();
     // Set extension filter for image
-    FileChooser.ExtensionFilter extFilter =
-        new FileChooser.ExtensionFilter("PNG Image", "*.png");
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG Image", "*.png");
     fileChooser.getExtensionFilters().add(extFilter);
     // Show save file dialog
     File file = fileChooser.showSaveDialog(window);
     if (file != null) {
       try {
-        ImageIO.write(puzzle.getSpritesheet(),"png",file);
+        ImageIO.write(puzzle.getSpritesheet(), "png", file);
       } catch (IOException e) {
-        log.error("Error writing spritesheet",e);
+        log.error("Error writing spritesheet", e);
       }
     }
   }
@@ -446,14 +444,19 @@ public class UIController {
       if (dialogController.isCommit()) {
         // clear old puzzle
         resetPuzzle(event);
-
-        CuboidBuilder builder = new CuboidBuilder(puzzle);
-        builder.createCuboid(
-            dialogController.getWidth(),
-            dialogController.getHeight(),
-            dialogController.getDepth());
-        // center pyramid
+        // create cube
+        CuboidBuilder builder =
+            new CuboidBuilder(
+                cellObservableList,
+                moveObservableList,
+                dialogController.getWidth(),
+                dialogController.getHeight(),
+                dialogController.getDepth());
+        builder.createCuboid();
+        // center cells
         centerCells(event);
+        // update lists
+
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -525,14 +528,21 @@ public class UIController {
                 selectedMove = null;
                 moveName.setText("");
                 loopList.getItems().clear();
-                moveIcon.setImage(SwingFXUtils.toFXImage(new BufferedImage(Move.MOVE_ICON_WIDTH,Move.MOVE_ICON_HEIGHT,BufferedImage.TYPE_INT_RGB),null));
+                moveIcon.setImage(
+                    SwingFXUtils.toFXImage(
+                        new BufferedImage(
+                            Move.MOVE_ICON_WIDTH,
+                            Move.MOVE_ICON_HEIGHT,
+                            BufferedImage.TYPE_INT_RGB),
+                        null));
               } else {
-                puzzleCellImage.setImage(SwingFXUtils.toFXImage(puzzle.getCellImage(selectedCell), null));
+                puzzleCellImage.setImage(
+                    SwingFXUtils.toFXImage(puzzle.getCellImage(selectedCell), null));
                 selectedMove = newMove;
                 moveName.setText(newMove.getName());
                 loopList.getItems().clear();
                 loopList.getItems().addAll(selectedMove.getLoops());
-                moveIcon.setImage(SwingFXUtils.toFXImage(newMove.getImageIcon(),null));
+                moveIcon.setImage(SwingFXUtils.toFXImage(newMove.getImageIcon(), null));
               }
             }));
     moveName
