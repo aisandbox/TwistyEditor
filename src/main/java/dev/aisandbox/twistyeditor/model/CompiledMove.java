@@ -14,7 +14,7 @@ public class CompiledMove {
 
   @Getter @Setter private BufferedImage image;
 
-  @Getter @Setter private int cost;
+  @Getter @Setter private int cost=1;
 
   public CompiledMove(int cardinality) {
     this.cardinality = cardinality;

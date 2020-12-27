@@ -38,6 +38,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
@@ -100,6 +102,7 @@ public class UIController {
   @FXML private ListView<Loop> loopList;
 
   @FXML private ImageView moveIcon;
+  @FXML private Spinner<Integer> moveCostSpinner;
 
   @FXML
   void addCell(ActionEvent event) {
@@ -516,6 +519,9 @@ public class UIController {
     // setup loops (dont try to bind)
 
     // setup move views
+    moveCostSpinner.setValueFactory(
+        new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10,1)
+    );
     moveObservableList = FXCollections.observableList(puzzle.getMoves());
     moveList.setItems(moveObservableList);
     moveList
@@ -543,6 +549,7 @@ public class UIController {
                 loopList.getItems().clear();
                 loopList.getItems().addAll(selectedMove.getLoops());
                 moveIcon.setImage(SwingFXUtils.toFXImage(newMove.getImageIcon(), null));
+                moveCostSpinner.getValueFactory().setValue(selectedMove.getCost());
               }
             }));
     moveName
@@ -666,6 +673,13 @@ public class UIController {
                 updateUI();
               }
             });
+    moveCostSpinner.getValueFactory().valueProperty().addListener(
+        (observable,oldValue,newValue) -> {
+          if (selectedMove!=null) {
+            selectedMove.setCost(newValue);
+          }
+        }
+    );
     // report version
     editorInfo.setText(buildProperties.getVersion() + " - " + buildProperties.getTime().toString());
   }

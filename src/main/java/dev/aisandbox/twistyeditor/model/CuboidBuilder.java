@@ -123,6 +123,7 @@ public class CuboidBuilder {
       for (int layer = 1; layer <= depth; layer++) {
         move.getLoops().addAll(frontSideTurn(layer));
       }
+      move.setCost(0);
       moveObservableList.add(move);
       // z' move
       move = new Move();
@@ -132,6 +133,7 @@ public class CuboidBuilder {
       for (int layer = 1; layer <= depth; layer++) {
         move.getLoops().addAll(frontSideReverseTurn(layer));
       }
+      move.setCost(0);
       moveObservableList.add(move);
     }
     if (width == depth) {
@@ -178,6 +180,7 @@ public class CuboidBuilder {
       for (int layer=1;layer<=depth;layer++) {
         move.getLoops().addAll(topSideTurn(layer));
       }
+      move.setCost(0);
       moveObservableList.add(move);
       // y' move
       move=new Move();
@@ -187,6 +190,7 @@ public class CuboidBuilder {
       for (int layer=1;layer<=depth;layer++) {
         move.getLoops().addAll(topSideReverseTurn(layer));
       }
+      move.setCost(0);
       moveObservableList.add(move);
     }
     if (depth==height) {
@@ -233,6 +237,7 @@ public class CuboidBuilder {
       for (int layer=1;layer<=width;layer++) {
         move.getLoops().addAll(rightSideTurn(layer));
       }
+      move.setCost(0);
       moveObservableList.add(move);
       // z'
       move=new Move();
@@ -242,6 +247,7 @@ public class CuboidBuilder {
       for (int layer=1;layer<=width;layer++) {
         move.getLoops().addAll(rightSideReverseTurn(layer));
       }
+      move.setCost(0);
       moveObservableList.add(move);
     }
     // we can always have double turns
@@ -254,7 +260,14 @@ public class CuboidBuilder {
         move.getLoops().addAll(frontSideDoubleTurn(layer));
       }
       moveObservableList.add(move);
-      // TODO B2
+      // B2
+      move = new Move();
+      move.setName(getMoveName(deep,'B',2));
+      move.getLoops().addAll(faceDoubleTurn(back, width, height));
+      for (int layer = 1; layer <= deep; layer++) {
+        move.getLoops().addAll(frontSideDoubleTurn(depth-layer+1));
+      }
+      moveObservableList.add(move);
       // TODO z2
     }
     for (int deep=1;deep<height;deep++) {

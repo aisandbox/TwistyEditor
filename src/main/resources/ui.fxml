@@ -10,6 +10,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -127,6 +128,8 @@
                               <TextField fx:id="moveName" />
                               <Label text="Loop" />
                               <ListView fx:id="loopList" prefHeight="200.0" prefWidth="200.0" />
+                              <Label text="Cost" />
+                              <Spinner fx:id="moveCostSpinner" />
                               <Label text="Image Icon" />
                               <ImageView fx:id="moveIcon" fitHeight="100.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
