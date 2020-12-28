@@ -159,24 +159,7 @@ public class UIController {
   void generateIcon(ActionEvent event) {
     if (selectedMove != null) {
       // create a new icon
-      BufferedImage image =
-          new BufferedImage(
-              Move.MOVE_ICON_WIDTH, Move.MOVE_ICON_HEIGHT, BufferedImage.TYPE_INT_RGB);
-      Graphics2D graphics2D = image.createGraphics();
-      graphics2D.setColor(Color.WHITE);
-      graphics2D.fillRect(0, 0, Move.MOVE_ICON_WIDTH, Move.MOVE_ICON_HEIGHT);
-      Font font = new Font("Hack", Font.PLAIN, 22);
-      graphics2D.setFont(font);
-      graphics2D.setRenderingHint(
-          RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
-      // Get the FontMetrics
-      FontMetrics metrics = graphics2D.getFontMetrics(font);
-      // Determine the X coordinate for the text
-      int dx = (Move.MOVE_ICON_WIDTH - metrics.stringWidth(selectedMove.getName())) / 2;
-      // Set the font
-      graphics2D.setColor(Color.BLACK);
-      // Draw the String
-      graphics2D.drawString(selectedMove.getName(), dx, Move.MOVE_ICON_HEIGHT - 4);
+      BufferedImage image = PuzzleUtil.getMoveIcon(selectedMove.getName());
       selectedMove.setImageIcon(image);
       moveIcon.setImage(SwingFXUtils.toFXImage(image, null));
     }
