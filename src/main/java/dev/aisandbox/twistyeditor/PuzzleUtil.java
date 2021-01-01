@@ -51,6 +51,11 @@ public class PuzzleUtil {
     Graphics2D graphics2D = image.createGraphics();
     graphics2D.setColor(Color.WHITE);
     graphics2D.fillRect(0, 0, Move.MOVE_ICON_WIDTH, Move.MOVE_ICON_HEIGHT);
+    return getMoveIcon(image,name);
+  }
+
+  public static BufferedImage getMoveIcon(BufferedImage image,String name) {
+    Graphics2D graphics2D = image.createGraphics();
     Font font = new Font("Hack", Font.PLAIN, 22);
     graphics2D.setFont(font);
     graphics2D.setRenderingHint(
@@ -65,5 +70,6 @@ public class PuzzleUtil {
     graphics2D.drawString(name, dx, Move.MOVE_ICON_HEIGHT - 4);
     return image;
   }
+
 
 }
