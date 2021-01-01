@@ -30,7 +30,8 @@ public class Puzzle {
   public BufferedImage getCellImage(Cell highlightCell) {
     BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     Graphics2D g = image.createGraphics();
-
+    Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+    g.setFont(font);
     g.setColor(Color.white);
     g.fillRect(0, 0, WIDTH, HEIGHT);
     // draw polygons
@@ -51,13 +52,12 @@ public class Puzzle {
       // number cell
       g.setColor(Color.DARK_GRAY);
       g.fillOval(
-          c.getLocationX() - c.getScale() / 3,
-          c.getLocationY() - c.getScale() / 3,
-          c.getScale() * 2 / 3,
-          c.getScale() * 2 / 3);
+          c.getLocationX() - 12,
+          c.getLocationY() - 12,
+          24,
+          24);
       g.setColor(Color.white);
-      Font font = new Font(Font.SANS_SERIF, Font.PLAIN, c.getScale() / 2);
-      g.setFont(font);
+
       String text = Integer.toString(i);
       FontMetrics metrics = g.getFontMetrics(font);
       // Determine the X coordinate for the text
