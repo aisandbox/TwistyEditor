@@ -8,6 +8,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -146,6 +147,32 @@ public class Puzzle {
     return result;
   }
 
+  public void centerCells() {
+    if (cells.size() > 0) {
+      // work out max and min of cells
+      int maxX = 0;
+      int minX = Puzzle.WIDTH;
+      int maxY = 0;
+      int minY = Puzzle.HEIGHT;
+      for (Cell c : cells) {
+        Rectangle2D rect = c.getPolygon().getBounds2D();
+        maxX = Math.max(maxX, (int) rect.getMaxX());
+        maxY = Math.max(maxY, (int) rect.getMaxY());
+        minX = Math.min(minX, (int) rect.getMinX());
+        minY = Math.min(minY, (int) rect.getMinY());
+      }
+      // work out the spare space
+      int spaceX = Puzzle.WIDTH - (maxX - minX);
+      int spaceY = Puzzle.HEIGHT - (maxY - minY);
+      int tx = -minX + spaceX / 2;
+      int ty = -minY + spaceY / 2;
+      for (Cell c : cells) {
+        c.setLocationX(c.getLocationX() + tx);
+        c.setLocationY(c.getLocationY() + ty);
+      }
+    }
+  }
+
   /**
    * Compile the move based on the latest information
    *
@@ -159,6 +186,8 @@ public class Puzzle {
       CompiledMove cmove = new CompiledMove(cells.size());
       // copy move image
       cmove.setImage(move.getImageIcon());
+      // copy move cost
+      cmove.setCost(move.getCost());
       // setup matrix
       cmove.resetMove();
       // check we have loops

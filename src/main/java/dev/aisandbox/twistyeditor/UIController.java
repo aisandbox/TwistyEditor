@@ -330,29 +330,7 @@ public class UIController {
   @FXML
   void centerCells(ActionEvent event) {
     log.info("Centering cells");
-    if (puzzle.getCells().size() > 0) {
-      // work out max and min of cells
-      int maxX = 0;
-      int minX = Puzzle.WIDTH;
-      int maxY = 0;
-      int minY = Puzzle.HEIGHT;
-      for (Cell c : puzzle.getCells()) {
-        Rectangle2D rect = c.getPolygon().getBounds2D();
-        maxX = Math.max(maxX, (int) rect.getMaxX());
-        maxY = Math.max(maxY, (int) rect.getMaxY());
-        minX = Math.min(minX, (int) rect.getMinX());
-        minY = Math.min(minY, (int) rect.getMinY());
-      }
-      // work out the spare space
-      int spaceX = Puzzle.WIDTH - (maxX - minX);
-      int spaceY = Puzzle.HEIGHT - (maxY - minY);
-      int tx = -minX + spaceX / 2;
-      int ty = -minY + spaceY / 2;
-      for (Cell c : puzzle.getCells()) {
-        c.setLocationX(c.getLocationX() + tx);
-        c.setLocationY(c.getLocationY() + ty);
-      }
-    }
+    puzzle.centerCells();
     updateUI();
   }
 
