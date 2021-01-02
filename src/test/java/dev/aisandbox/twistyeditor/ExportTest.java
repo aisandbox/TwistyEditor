@@ -35,6 +35,8 @@ public class ExportTest {
           ObservableList<Move> moves = FXCollections.observableList(model.getMoves());
           CuboidBuilder builder = new CuboidBuilder(cells, moves, width, height, depth);
           builder.createCuboid();
+          // center cells
+          model.centerCells();
           // work out file name
           if (width == depth && depth == height) {
             puzzles.put("Cube" + width, model);
