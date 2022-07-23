@@ -69,7 +69,7 @@ public class UIController {
   Move selectedMove = null;
   Loop selectedLoop = null;
 
-  @Autowired BuildProperties buildProperties;
+  @Autowired Settings settings;
 
   @FXML private ListView<Cell> cellList;
 
@@ -642,7 +642,7 @@ public class UIController {
         }
     );
     // report version
-    editorInfo.setText(buildProperties.getVersion() + " - " + buildProperties.getTime().toString());
+    editorInfo.setText(settings.getBuildVersion() + " - " + settings.getBuildDate());
   }
 
   private void updateUI() {
